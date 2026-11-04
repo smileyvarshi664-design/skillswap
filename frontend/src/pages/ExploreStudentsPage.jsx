@@ -9,7 +9,6 @@ import { userService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import {
   Search,
-  Filter,
   BookOpen,
   Sparkles,
   Users,
@@ -34,7 +33,7 @@ const ExploreStudentsPage = () => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
 
-  // Parse URL query params (e.g. from landing page category click)
+  // Parse URL query params
   const queryParams = new URLSearchParams(location.search);
   const initialCategory = queryParams.get('category') || 'All';
 
@@ -86,7 +85,6 @@ const ExploreStudentsPage = () => {
     setSelectedCategory('All');
     setTeachSkill('');
     setLearnSkill('');
-    // Trigger reload
     setTimeout(() => {
       userService.getUsers({}).then((res) => {
         if (res.data && res.data.success) setStudents(res.data.users || []);
@@ -114,104 +112,91 @@ const ExploreStudentsPage = () => {
       <div
         style={{
           backgroundColor: '#ffffff',
-          borderRadius: '20px',
-          padding: '1.75rem',
+          borderRadius: '14px',
+          padding: '0.85rem 1.15rem',
           border: '1px solid #e2e8f0',
-          boxShadow: 'var(--shadow-sm)',
-          marginBottom: '2rem',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+          marginBottom: '0.85rem',
         }}
       >
-        {/* Search Bar */}
-        <form
-          onSubmit={handleSearchSubmit}
-          style={{
-            display: 'flex',
-            gap: '0.75rem',
-            marginBottom: '1.25rem',
-          }}
-        >
-          <div style={{ position: 'relative', flex: 1 }}>
-            <Search
-              size={18}
-              color="#94a3b8"
-              style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }}
-            />
-            <input
-              type="text"
-              className="form-input"
-              style={{ paddingLeft: '2.75rem' }}
-              placeholder="Search students by name, college, department, or keyword..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        {/* Search Bar + Inputs in 1 compact grid */}
+        <form onSubmit={handleSearchSubmit} style={{ marginBottom: '0.65rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto', gap: '0.5rem', alignItems: 'center' }} className="explore-search-grid">
+            <div style={{ position: 'relative' }}>
+              <Search
+                size={16}
+                color="#94a3b8"
+                style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }}
+              />
+              <input
+                type="text"
+                className="form-input"
+                style={{ paddingLeft: '2.25rem', fontSize: '0.825rem' }}
+                placeholder="Search by name, college, department, or keyword..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <BookOpen
+                size={14}
+                color="#4f46e5"
+                style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }}
+              />
+              <input
+                type="text"
+                className="form-input"
+                style={{ paddingLeft: '2rem', fontSize: '0.825rem' }}
+                placeholder="Filter Can Teach (Python, Figma...)"
+                value={teachSkill}
+                onChange={(e) => setTeachSkill(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && fetchStudents()}
+              />
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <Sparkles
+                size={14}
+                color="#2563eb"
+                style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }}
+              />
+              <input
+                type="text"
+                className="form-input"
+                style={{ paddingLeft: '2rem', fontSize: '0.825rem' }}
+                placeholder="Filter Wants to Learn (React...)"
+                value={learnSkill}
+                onChange={(e) => setLearnSkill(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && fetchStudents()}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.4rem' }}>
+              <button type="submit" className="btn btn-primary btn-sm" style={{ padding: '0.45rem 0.85rem', fontSize: '0.825rem' }}>
+                <Search size={14} />
+                <span>Search</span>
+              </button>
+
+              {(search || selectedCategory !== 'All' || teachSkill || learnSkill) && (
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="btn btn-secondary btn-sm"
+                  title="Reset Filters"
+                  style={{ padding: '0.45rem 0.65rem', fontSize: '0.825rem' }}
+                >
+                  <RotateCcw size={14} />
+                </button>
+              )}
+            </div>
           </div>
-
-          <button type="submit" className="btn btn-primary" style={{ padding: '0 1.5rem' }}>
-            <Search size={16} />
-            <span>Search</span>
-          </button>
-
-          {(search || selectedCategory !== 'All' || teachSkill || learnSkill) && (
-            <button
-              type="button"
-              onClick={handleResetFilters}
-              className="btn btn-secondary"
-              title="Reset Filters"
-            >
-              <RotateCcw size={16} />
-              <span>Reset</span>
-            </button>
-          )}
         </form>
 
-        {/* Skill-Specific Keyword Filters */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-            marginBottom: '1.25rem',
-          }}
-        >
-          <div style={{ position: 'relative' }}>
-            <BookOpen
-              size={16}
-              color="#4f46e5"
-              style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }}
-            />
-            <input
-              type="text"
-              className="form-input"
-              style={{ paddingLeft: '2.5rem', fontSize: '0.85rem' }}
-              placeholder="Filter by Teaching Skill (e.g. Python, Figma, React)"
-              value={teachSkill}
-              onChange={(e) => setTeachSkill(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && fetchStudents()}
-            />
-          </div>
-
-          <div style={{ position: 'relative' }}>
-            <Sparkles
-              size={16}
-              color="#2563eb"
-              style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }}
-            />
-            <input
-              type="text"
-              className="form-input"
-              style={{ paddingLeft: '2.5rem', fontSize: '0.85rem' }}
-              placeholder="Filter by Learning Interest (e.g. Design, Video Editing)"
-              value={learnSkill}
-              onChange={(e) => setLearnSkill(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && fetchStudents()}
-            />
-          </div>
-        </div>
-
         {/* Category Pills */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', marginRight: '0.25rem' }}>
-            CATEGORIES:
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#4f46e5', marginRight: '0.2rem', textTransform: 'uppercase' }}>
+            Categories:
           </span>
           {CATEGORIES.map((cat) => (
             <button
@@ -219,14 +204,14 @@ const ExploreStudentsPage = () => {
               type="button"
               onClick={() => setSelectedCategory(cat)}
               style={{
-                fontSize: '0.8rem',
+                fontSize: '0.75rem',
                 fontWeight: 600,
-                padding: '0.35rem 0.85rem',
+                padding: '0.2rem 0.65rem',
                 borderRadius: '999px',
                 border: `1.5px solid ${selectedCategory === cat ? '#6366f1' : '#e2e8f0'}`,
                 backgroundColor: selectedCategory === cat ? '#eef2ff' : '#ffffff',
                 color: selectedCategory === cat ? '#4338ca' : '#64748b',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.12s ease',
                 cursor: 'pointer',
               }}
             >
@@ -242,26 +227,26 @@ const ExploreStudentsPage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '1.25rem',
+          marginBottom: '0.65rem',
         }}
       >
-        <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#475569' }}>
+        <span style={{ fontSize: '0.825rem', fontWeight: 700, color: '#475569' }}>
           Showing {students.length} student profile{students.length === 1 ? '' : 's'}
         </span>
       </div>
 
       {/* Student Cards Grid */}
       {loading ? (
-        <div style={{ padding: '5rem', textAlign: 'center' }}>
-          <div className="spinner" style={{ margin: '0 auto 1rem' }} />
-          <span style={{ color: '#64748b' }}>Discovering students across campuses...</span>
+        <div style={{ padding: '3rem', textAlign: 'center' }}>
+          <div className="spinner" style={{ margin: '0 auto 0.5rem', width: '22px', height: '22px' }} />
+          <span style={{ color: '#64748b', fontSize: '0.825rem' }}>Discovering student peers...</span>
         </div>
       ) : students.length > 0 ? (
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '1.5rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '0.85rem',
           }}
         >
           {students.map((student) => (
@@ -277,54 +262,64 @@ const ExploreStudentsPage = () => {
         <div
           className="card"
           style={{
-            padding: '4rem 2rem',
+            padding: '2.5rem 1.5rem',
             textAlign: 'center',
             backgroundColor: '#ffffff',
+            borderRadius: '14px',
           }}
         >
           <div
             style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '20px',
+              width: '48px',
+              height: '48px',
+              borderRadius: '14px',
               backgroundColor: '#f1f5f9',
               color: '#94a3b8',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 1rem',
+              margin: '0 auto 0.65rem',
             }}
           >
-            <Users size={30} />
+            <Users size={24} />
           </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1e293b' }}>
-            No Students Found
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
+            No Matching Students Found
           </h3>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', maxWidth: '420px', margin: '0.5rem auto 1.5rem' }}>
-            We couldn't find any students matching your exact search filters. Try widening your criteria
-            or clearing your search filters.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', maxWidth: '380px', margin: '0.35rem auto 1rem' }}>
+            Try broadening your search term or select "All" categories to explore all campus peers.
           </p>
-          <button onClick={handleResetFilters} className="btn btn-secondary">
-            Reset All Filters
+          <button onClick={handleResetFilters} className="btn btn-secondary btn-sm">
+            <span>Reset All Filters</span>
           </button>
         </div>
       )}
 
-      {/* User Profile Modal */}
+      {/* Modals */}
       <UserProfileModal
         studentId={selectedStudentId}
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
-        onRequestExchange={handleRequestExchange}
+        onRequestExchange={(student) => {
+          setIsProfileModalOpen(false);
+          handleRequestExchange(student);
+        }}
       />
 
-      {/* Request Modal */}
       <RequestModal
         targetStudent={targetStudentForRequest}
         isOpen={isRequestModalOpen}
         onClose={() => setIsRequestModalOpen(false)}
         onSuccess={fetchStudents}
       />
+
+      <style>{`
+        @media (max-width: 900px) {
+          .explore-search-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   );
 
@@ -332,8 +327,8 @@ const ExploreStudentsPage = () => {
   if (isAuthenticated) {
     return (
       <DashboardLayout
-        title="Explore Students"
-        subtitle="Search peers by name, campus, teaching abilities, and learning interests"
+        title="Explore Campus Peers"
+        subtitle="Search student profiles by department, teaching skills, or learning interests"
       >
         {content}
       </DashboardLayout>
@@ -341,13 +336,13 @@ const ExploreStudentsPage = () => {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
       <Navbar />
-      <div className="container" style={{ padding: '3rem 1.5rem', flex: 1 }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#0f172a' }}>Explore Students</h1>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.25rem' }}>
-            Connect with college peers, discover skills they can teach you, and propose a mutual exchange!
+      <div className="container" style={{ padding: '1.25rem 1rem', flex: 1 }}>
+        <div style={{ marginBottom: '0.85rem' }}>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a' }}>Explore Campus Peers</h1>
+          <p style={{ color: '#64748b', fontSize: '0.825rem' }}>
+            Discover students across university departments eager to exchange knowledge
           </p>
         </div>
         {content}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-import { Menu, X, Bell, Sparkles } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const DashboardLayout = ({ children, title, subtitle }) => {
     <div className="dashboard-layout">
       {/* Sidebar with mobile toggle class */}
       <div className={sidebarOpen ? 'dashboard-sidebar open' : 'dashboard-sidebar'}>
-        <Sidebar />
+        <Sidebar onCloseMobile={() => setSidebarOpen(false)} />
       </div>
 
       {/* Mobile backdrop */}
@@ -22,8 +22,8 @@ const DashboardLayout = ({ children, title, subtitle }) => {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(15, 23, 42, 0.4)',
-            backdropFilter: 'blur(2px)',
+            background: 'rgba(15, 23, 42, 0.45)',
+            backdropFilter: 'blur(3px)',
             zIndex: 35,
           }}
         />
@@ -34,59 +34,63 @@ const DashboardLayout = ({ children, title, subtitle }) => {
         {/* Top Navbar Header */}
         <header
           style={{
-            height: '70px',
+            height: '52px',
             backgroundColor: '#ffffff',
             borderBottom: '1px solid #e2e8f0',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 2rem',
+            padding: '0 1.25rem',
             position: 'sticky',
             top: 0,
             zIndex: 30,
           }}
         >
           {/* Mobile hamburger & Page Title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               style={{
                 display: 'none',
-                padding: '6px',
+                padding: '5px',
                 borderRadius: '8px',
                 color: '#475569',
+                background: '#f1f5f9',
+                border: 'none',
               }}
               className="mobile-menu-btn"
             >
-              {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
             <div>
-              <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.2 }}>
+              <h1 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.15 }}>
                 {title}
               </h1>
               {subtitle && (
-                <p style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '2px' }}>{subtitle}</p>
+                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '1px', lineHeight: 1 }}>{subtitle}</p>
               )}
             </div>
           </div>
 
           {/* Quick Actions & User Pill */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <Link
               to="/matches"
               className="btn btn-secondary btn-sm"
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.4rem',
+                gap: '0.35rem',
                 border: '1.5px solid #c7d2fe',
                 background: '#f5f3ff',
                 color: '#6366f1',
+                padding: '0.3rem 0.75rem',
+                fontSize: '0.8rem',
               }}
             >
-              <Sparkles size={16} />
-              <span style={{ fontWeight: 700 }}>Find Mutual Matches</span>
+              <Sparkles size={14} />
+              <span style={{ fontWeight: 700 }}>Find Matches</span>
             </Link>
 
             <Link
@@ -94,8 +98,8 @@ const DashboardLayout = ({ children, title, subtitle }) => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                padding: '4px 10px 4px 4px',
+                gap: '0.5rem',
+                padding: '3px 8px 3px 3px',
                 borderRadius: '999px',
                 backgroundColor: '#f8fafc',
                 border: '1px solid #e2e8f0',
@@ -105,9 +109,9 @@ const DashboardLayout = ({ children, title, subtitle }) => {
               <img
                 src={user?.profileImage || 'https://api.dicebear.com/7.x/bottts/svg?seed=student'}
                 alt={user?.name}
-                style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
               />
-              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#334155' }}>
                 {user?.name?.split(' ')[0]}
               </span>
             </Link>

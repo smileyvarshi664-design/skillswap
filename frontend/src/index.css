@@ -299,12 +299,12 @@ input, select, textarea {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-bottom: 1.15rem;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
 }
 
 .form-label {
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   font-weight: 600;
   color: #334155;
   display: flex;
@@ -314,11 +314,12 @@ input, select, textarea {
 
 .form-input, .form-select, .form-textarea {
   width: 100%;
-  padding: 0.7rem 1rem;
+  padding: 0.55rem 0.85rem;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--border-light);
   background-color: #ffffff;
   color: var(--text-main);
+  font-size: 0.875rem;
   transition: all var(--transition-fast);
 }
 
@@ -340,7 +341,7 @@ input, select, textarea {
 }
 
 .dashboard-sidebar {
-  width: 270px;
+  width: 240px;
   background: #ffffff;
   border-right: 1px solid var(--border-light);
   display: flex;
@@ -355,15 +356,15 @@ input, select, textarea {
 
 .dashboard-main {
   flex: 1;
-  margin-left: 270px;
+  margin-left: 240px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  width: calc(100% - 270px);
+  width: calc(100% - 240px);
 }
 
 .dashboard-content {
-  padding: 2rem;
+  padding: 1.15rem 1.5rem;
   flex: 1;
 }
 
@@ -377,6 +378,9 @@ input, select, textarea {
   .dashboard-main {
     margin-left: 0;
     width: 100%;
+  }
+  .dashboard-content {
+    padding: 1rem;
   }
 }
 

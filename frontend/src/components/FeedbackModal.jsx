@@ -54,11 +54,11 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content" style={{ maxWidth: '480px', borderRadius: '16px' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div
           style={{
-            padding: '1.25rem 1.5rem',
+            padding: '0.85rem 1.25rem',
             borderBottom: '1px solid #f1f5f9',
             display: 'flex',
             alignItems: 'center',
@@ -66,39 +66,50 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
           }}
         >
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a' }}>
               Leave Peer Feedback
             </h3>
-            <p style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <p style={{ fontSize: '0.75rem', color: '#64748b' }}>
               Rate your skill exchange experience with {partner?.name}
             </p>
           </div>
-          <button onClick={onClose} style={{ padding: '6px', color: '#94a3b8' }}>
-            <X size={20} />
+          <button
+            onClick={onClose}
+            style={{
+              padding: '4px',
+              color: '#94a3b8',
+              background: '#f1f5f9',
+              border: 'none',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+            }}
+          >
+            <X size={16} />
           </button>
         </div>
 
         {/* Partner Brief */}
         <div
           style={{
-            padding: '1rem 1.5rem',
+            padding: '0.65rem 1.25rem',
             background: '#f8fafc',
             borderBottom: '1px solid #f1f5f9',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.85rem',
+            gap: '0.65rem',
           }}
         >
           <img
             src={partner?.profileImage || 'https://api.dicebear.com/7.x/bottts/svg?seed=student'}
             alt={partner?.name}
-            style={{ width: '46px', height: '46px', borderRadius: '12px', objectFit: 'cover' }}
+            style={{ width: '36px', height: '36px', borderRadius: '10px', objectFit: 'cover' }}
           />
           <div>
-            <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#1e293b' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#1e293b' }}>
               {partner?.name}
             </div>
-            <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <div style={{ fontSize: '0.725rem', color: '#64748b' }}>
               Taught: <span style={{ color: '#4338ca', fontWeight: 600 }}>{exchange.myLearningSkill}</span> •
               Learned: <span style={{ color: '#1d4ed8', fontWeight: 600 }}>{exchange.myTeachingSkill}</span>
             </div>
@@ -106,14 +117,14 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} style={{ padding: '1.5rem' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '1rem 1.25rem' }}>
           {/* Interactive Star Rating */}
-          <div className="form-group" style={{ textAlign: 'center', margin: '0.5rem 0 1.5rem' }}>
-            <label className="form-label" style={{ justifyContent: 'center', marginBottom: '0.75rem' }}>
+          <div className="form-group" style={{ textAlign: 'center', margin: '0.25rem 0 1rem' }}>
+            <label className="form-label" style={{ justifyContent: 'center', marginBottom: '0.45rem', fontSize: '0.8rem' }}>
               Your Rating (1 to 5 Stars):
             </label>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.4rem' }}>
               {[1, 2, 3, 4, 5].map((star) => {
                 const isFilled = star <= (hoverRating || rating);
                 return (
@@ -127,14 +138,12 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      padding: '4px',
-                      transition: 'transform 0.15s ease',
+                      padding: '2px',
+                      transition: 'transform 0.12s ease',
                     }}
-                    onFocus={(e) => (e.currentTarget.style.transform = 'scale(1.15)')}
-                    onBlur={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                   >
                     <Star
-                      size={32}
+                      size={26}
                       fill={isFilled ? '#f59e0b' : 'none'}
                       color={isFilled ? '#f59e0b' : '#cbd5e1'}
                     />
@@ -145,11 +154,11 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
 
             <div
               style={{
-                fontSize: '0.85rem',
+                fontSize: '0.775rem',
                 fontWeight: 600,
                 color: '#b45309',
-                marginTop: '0.5rem',
-                minHeight: '20px',
+                marginTop: '0.35rem',
+                minHeight: '18px',
               }}
             >
               {ratingDescriptions[hoverRating || rating]}
@@ -158,11 +167,11 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
 
           {/* Feedback comment */}
           <div className="form-group">
-            <label className="form-label">Written Feedback / Review:</label>
+            <label className="form-label" style={{ fontSize: '0.8rem' }}>Written Feedback / Review:</label>
             <textarea
               className="form-textarea"
-              rows={4}
-              placeholder="How was their teaching style, punctuality, and helpfulness? Your review helps other students!"
+              rows={3}
+              placeholder="How was their teaching style, punctuality, and knowledge sharing? Your review helps peers!"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               required
@@ -170,16 +179,16 @@ const FeedbackModal = ({ exchange, isOpen, onClose, onSuccess }) => {
           </div>
 
           {/* Modal Actions */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-            <button type="button" onClick={onClose} className="btn btn-secondary">
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.55rem', marginTop: '0.85rem' }}>
+            <button type="button" onClick={onClose} className="btn btn-secondary btn-sm" style={{ padding: '0.35rem 0.85rem' }}>
               Cancel
             </button>
-            <button type="submit" disabled={loading} className="btn btn-primary">
+            <button type="submit" disabled={loading} className="btn btn-primary btn-sm" style={{ padding: '0.35rem 1rem' }}>
               {loading ? (
-                <div className="spinner" style={{ width: '18px', height: '18px' }} />
+                <div className="spinner" style={{ width: '16px', height: '16px' }} />
               ) : (
                 <>
-                  <Send size={16} />
+                  <Send size={14} />
                   <span>Submit Feedback</span>
                 </>
               )}

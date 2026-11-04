@@ -6,14 +6,11 @@ import UserProfileModal from '../components/UserProfileModal';
 import RequestModal from '../components/RequestModal';
 import {
   Sparkles,
-  ArrowRight,
   ArrowLeftRight,
-  Star,
-  Building2,
-  GraduationCap,
   BookOpen,
   CheckCircle2,
   Plus,
+  Building2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -71,23 +68,23 @@ const SkillMatchingPage = () => {
       <div
         style={{
           backgroundColor: '#eef2ff',
-          borderRadius: '20px',
-          padding: '1.5rem 2rem',
+          borderRadius: '12px',
+          padding: '0.65rem 1rem',
           border: '1.5px solid #c7d2fe',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '1.25rem',
-          marginBottom: '2rem',
+          gap: '0.65rem',
+          marginBottom: '0.85rem',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', maxWidth: '750px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
           <div
             style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '14px',
+              width: '34px',
+              height: '34px',
+              borderRadius: '9px',
               backgroundColor: '#6366f1',
               color: '#ffffff',
               display: 'flex',
@@ -96,45 +93,44 @@ const SkillMatchingPage = () => {
               flexShrink: 0,
             }}
           >
-            <ArrowLeftRight size={24} />
+            <ArrowLeftRight size={17} />
           </div>
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1e1b4b' }}>
-              How the Matching Algorithm Works
+            <h3 style={{ fontSize: '0.925rem', fontWeight: 800, color: '#1e1b4b', lineHeight: 1.2 }}>
+              How Matching Works
             </h3>
-            <p style={{ fontSize: '0.875rem', color: '#4338ca', marginTop: '0.2rem', lineHeight: 1.5 }}>
-              The engine compares what you teach with what others want to learn, AND what they teach with what you want to learn.
-              Students with <strong>Mutual Matches</strong> are highlighted and prioritized at the top!
+            <p style={{ fontSize: '0.75rem', color: '#4338ca', marginTop: '1px', lineHeight: 1.3 }}>
+              Pairs what you teach with what others learn, and what they teach with what you need. <strong>Mutual Matches</strong> are highlighted first!
             </p>
           </div>
         </div>
 
-        <Link to="/my-skills" className="btn btn-primary btn-sm">
-          <Plus size={16} />
+        <Link to="/my-skills" className="btn btn-primary btn-sm" style={{ padding: '0.35rem 0.8rem', fontSize: '0.78rem' }}>
+          <Plus size={14} />
           <span>Update My Skills</span>
         </Link>
       </div>
 
       {loading ? (
-        <div style={{ padding: '5rem', textAlign: 'center' }}>
-          <div className="spinner" style={{ margin: '0 auto 1rem' }} />
-          <span style={{ color: '#64748b' }}>Analyzing campus skill matrix...</span>
+        <div style={{ padding: '3rem', textAlign: 'center' }}>
+          <div className="spinner" style={{ margin: '0 auto 0.5rem', width: '22px', height: '22px' }} />
+          <span style={{ color: '#64748b', fontSize: '0.825rem' }}>Analyzing skill matrix...</span>
         </div>
       ) : matches.length > 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {/* Mutual Matches Section */}
           {mutualMatches.length > 0 && (
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-                <Sparkles size={22} color="#9333ea" />
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.55rem' }}>
+                <Sparkles size={16} color="#9333ea" />
+                <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a' }}>
                   Mutual Matches ({mutualMatches.length})
                 </h2>
                 <span
                   style={{
-                    fontSize: '0.75rem',
+                    fontSize: '0.68rem',
                     fontWeight: 700,
-                    padding: '3px 10px',
+                    padding: '1px 6px',
                     borderRadius: '999px',
                     backgroundColor: '#fdf4ff',
                     color: '#9333ea',
@@ -145,16 +141,17 @@ const SkillMatchingPage = () => {
                 </span>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 {mutualMatches.map((m) => (
                   <div
                     key={m.user._id}
-                    className="card card-interactive"
+                    className="card"
                     style={{
-                      padding: '1.75rem',
+                      padding: '0.85rem 1rem',
                       backgroundColor: '#ffffff',
-                      border: '2px solid #e0e7ff',
-                      boxShadow: 'var(--shadow-md)',
+                      border: '1.5px solid #e0e7ff',
+                      borderRadius: '12px',
+                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
                     }}
                   >
                     <div
@@ -163,39 +160,40 @@ const SkillMatchingPage = () => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         flexWrap: 'wrap',
-                        gap: '1rem',
-                        marginBottom: '1.25rem',
-                        paddingBottom: '1.25rem',
+                        gap: '0.65rem',
+                        marginBottom: '0.65rem',
+                        paddingBottom: '0.65rem',
                         borderBottom: '1px solid #f1f5f9',
                       }}
                     >
                       {/* Student info */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                         <img
                           src={m.user.profileImage || 'https://api.dicebear.com/7.x/bottts/svg?seed=student'}
                           alt={m.user.name}
                           style={{
-                            width: '56px',
-                            height: '56px',
-                            borderRadius: '16px',
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
                             objectFit: 'cover',
-                            border: '2px solid #e2e8f0',
+                            border: '1.5px solid #e2e8f0',
+                            flexShrink: 0,
                           }}
                         />
                         <div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                            <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a' }}>
                               {m.user.name}
                             </h3>
                             <span
                               className="badge badge-mutual"
-                              style={{ fontSize: '0.725rem' }}
+                              style={{ fontSize: '0.68rem', padding: '1px 6px' }}
                             >
                               ★ Mutual Match ({m.score}%)
                             </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontSize: '0.825rem', marginTop: '0.2rem' }}>
-                            <Building2 size={14} color="#6366f1" />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#64748b', fontSize: '0.725rem', marginTop: '1px' }}>
+                            <Building2 size={12} color="#6366f1" />
                             <span>{m.user.college}</span>
                             <span>•</span>
                             <span>{m.user.department}</span>
@@ -204,18 +202,20 @@ const SkillMatchingPage = () => {
                       </div>
 
                       {/* Action buttons */}
-                      <div style={{ display: 'flex', gap: '0.6rem' }}>
+                      <div style={{ display: 'flex', gap: '0.45rem' }}>
                         <button
                           onClick={() => handleViewProfile(m.user)}
                           className="btn btn-secondary btn-sm"
+                          style={{ padding: '0.3rem 0.65rem', fontSize: '0.75rem' }}
                         >
                           View Profile
                         </button>
                         <button
                           onClick={() => handleRequestExchange(m.user, m.otherTeachSkills)}
                           className="btn btn-primary btn-sm"
+                          style={{ padding: '0.3rem 0.75rem', fontSize: '0.75rem' }}
                         >
-                          <ArrowLeftRight size={15} />
+                          <ArrowLeftRight size={13} />
                           <span>Propose Exchange</span>
                         </button>
                       </div>
@@ -227,10 +227,10 @@ const SkillMatchingPage = () => {
                         display: 'grid',
                         gridTemplateColumns: '1fr auto 1fr',
                         alignItems: 'center',
-                        gap: '1.25rem',
+                        gap: '0.75rem',
                         backgroundColor: '#f8fafc',
-                        padding: '1.25rem',
-                        borderRadius: '16px',
+                        padding: '0.65rem 0.85rem',
+                        borderRadius: '10px',
                         border: '1px solid #e2e8f0',
                       }}
                     >
@@ -238,20 +238,20 @@ const SkillMatchingPage = () => {
                       <div>
                         <div
                           style={{
-                            fontSize: '0.75rem',
+                            fontSize: '0.68rem',
                             fontWeight: 700,
                             color: '#1e40af',
-                            marginBottom: '0.4rem',
+                            marginBottom: '0.25rem',
                             textTransform: 'uppercase',
-                            letterSpacing: '0.5px',
+                            letterSpacing: '0.4px',
                           }}
                         >
                           They Teach You:
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
                           {m.theyTeachIWant.map((s, idx) => (
-                            <span key={idx} className="badge badge-learn" style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}>
-                              <CheckCircle2 size={13} /> {s.skillName} ({s.proficiencyLevel})
+                            <span key={idx} className="badge badge-learn" style={{ fontSize: '0.725rem', padding: '2px 7px' }}>
+                              <CheckCircle2 size={11} /> {s.skillName} ({s.proficiencyLevel})
                             </span>
                           ))}
                         </div>
@@ -260,37 +260,38 @@ const SkillMatchingPage = () => {
                       {/* Center Swap Arrow */}
                       <div
                         style={{
-                          width: '36px',
-                          height: '36px',
+                          width: '28px',
+                          height: '28px',
                           borderRadius: '50%',
                           backgroundColor: '#eef2ff',
                           color: '#4f46e5',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          flexShrink: 0,
                         }}
                       >
-                        <ArrowLeftRight size={18} />
+                        <ArrowLeftRight size={14} />
                       </div>
 
                       {/* Right: What you teach them */}
                       <div>
                         <div
                           style={{
-                            fontSize: '0.75rem',
+                            fontSize: '0.68rem',
                             fontWeight: 700,
                             color: '#4338ca',
-                            marginBottom: '0.4rem',
+                            marginBottom: '0.25rem',
                             textTransform: 'uppercase',
-                            letterSpacing: '0.5px',
+                            letterSpacing: '0.4px',
                           }}
                         >
                           You Teach Them:
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
                           {m.iTeachTheyWant.map((s, idx) => (
-                            <span key={idx} className="badge badge-teach" style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}>
-                              <CheckCircle2 size={13} /> {s.skillName} ({s.proficiencyLevel})
+                            <span key={idx} className="badge badge-teach" style={{ fontSize: '0.725rem', padding: '2px 7px' }}>
+                              <CheckCircle2 size={11} /> {s.skillName} ({s.proficiencyLevel})
                             </span>
                           ))}
                         </div>
@@ -305,9 +306,9 @@ const SkillMatchingPage = () => {
           {/* Partial / One-way Matches Section */}
           {partialMatches.length > 0 && (
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-                <BookOpen size={20} color="#3b82f6" />
-                <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.55rem' }}>
+                <BookOpen size={16} color="#3b82f6" />
+                <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a' }}>
                   One-Way Matches ({partialMatches.length})
                 </h2>
               </div>
@@ -315,49 +316,50 @@ const SkillMatchingPage = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-                  gap: '1.25rem',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '0.75rem',
                 }}
               >
                 {partialMatches.map((m) => (
                   <div
                     key={m.user._id}
-                    className="card card-interactive"
+                    className="card"
                     style={{
-                      padding: '1.4rem',
+                      padding: '0.85rem 1rem',
                       backgroundColor: '#ffffff',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
+                      borderRadius: '12px',
                     }}
                   >
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.65rem' }}>
                         <img
                           src={m.user.profileImage || 'https://api.dicebear.com/7.x/bottts/svg?seed=student'}
                           alt={m.user.name}
-                          style={{ width: '46px', height: '46px', borderRadius: '12px', objectFit: 'cover' }}
+                          style={{ width: '36px', height: '36px', borderRadius: '10px', objectFit: 'cover' }}
                         />
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <h4 style={{ fontWeight: 800, color: '#0f172a', fontSize: '1.05rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <h4 style={{ fontWeight: 800, color: '#0f172a', fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {m.user.name}
                           </h4>
-                          <span style={{ fontSize: '0.775rem', color: '#64748b' }}>
+                          <span style={{ fontSize: '0.7rem', color: '#64748b' }}>
                             {m.user.college}
                           </span>
                         </div>
-                        <span className="badge" style={{ background: '#f1f5f9', color: '#475569', fontSize: '0.75rem' }}>
+                        <span className="badge" style={{ background: '#f1f5f9', color: '#475569', fontSize: '0.68rem', padding: '1px 5px' }}>
                           {m.score}%
                         </span>
                       </div>
 
-                      <div style={{ marginBottom: '1rem' }}>
+                      <div style={{ marginBottom: '0.65rem' }}>
                         {m.theyTeachIWant.length > 0 && (
-                          <div style={{ marginBottom: '0.5rem' }}>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e40af' }}>THEY CAN TEACH YOU:</span>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.2rem' }}>
+                          <div style={{ marginBottom: '0.35rem' }}>
+                            <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#1e40af' }}>THEY TEACH:</span>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '1px' }}>
                               {m.theyTeachIWant.map((s, idx) => (
-                                <span key={idx} className="badge badge-learn" style={{ fontSize: '0.75rem' }}>
+                                <span key={idx} className="badge badge-learn" style={{ fontSize: '0.68rem', padding: '1px 5px' }}>
                                   {s.skillName}
                                 </span>
                               ))}
@@ -367,10 +369,10 @@ const SkillMatchingPage = () => {
 
                         {m.iTeachTheyWant.length > 0 && (
                           <div>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#4338ca' }}>YOU CAN TEACH THEM:</span>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.2rem' }}>
+                            <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#4338ca' }}>YOU TEACH:</span>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '1px' }}>
                               {m.iTeachTheyWant.map((s, idx) => (
-                                <span key={idx} className="badge badge-teach" style={{ fontSize: '0.75rem' }}>
+                                <span key={idx} className="badge badge-teach" style={{ fontSize: '0.68rem', padding: '1px 5px' }}>
                                   {s.skillName}
                                 </span>
                               ))}
@@ -380,13 +382,14 @@ const SkillMatchingPage = () => {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', paddingTop: '0.85rem', borderTop: '1px solid #f1f5f9' }}>
-                      <button onClick={() => handleViewProfile(m.user)} className="btn btn-secondary btn-sm">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.45rem', paddingTop: '0.55rem', borderTop: '1px solid #f1f5f9' }}>
+                      <button onClick={() => handleViewProfile(m.user)} className="btn btn-secondary btn-sm" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}>
                         Profile
                       </button>
                       <button
                         onClick={() => handleRequestExchange(m.user, m.otherTeachSkills)}
                         className="btn btn-primary btn-sm"
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}
                       >
                         Request
                       </button>
@@ -401,47 +404,51 @@ const SkillMatchingPage = () => {
         <div
           className="card"
           style={{
-            padding: '4rem 2rem',
+            padding: '2.5rem 1.5rem',
             textAlign: 'center',
             backgroundColor: '#ffffff',
+            borderRadius: '14px',
           }}
         >
           <div
             style={{
-              width: '64px',
-              height: '64px',
-              borderRadius: '20px',
+              width: '48px',
+              height: '48px',
+              borderRadius: '14px',
               backgroundColor: '#eef2ff',
               color: '#6366f1',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 1.25rem',
+              margin: '0 auto 0.65rem',
             }}
           >
-            <Sparkles size={32} />
+            <Sparkles size={24} />
           </div>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1e293b' }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
             No Matches Found Yet
           </h3>
-          <p style={{ color: '#64748b', fontSize: '0.95rem', maxWidth: '440px', margin: '0.5rem auto 1.5rem' }}>
-            To discover peers whose skills pair with yours, add skills you can teach and skills you want to learn to your profile.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', maxWidth: '380px', margin: '0.35rem auto 1rem' }}>
+            List your teaching skills and learning interests so our smart algorithm can match you with campus peers!
           </p>
-          <Link to="/my-skills" className="btn btn-primary">
+          <Link to="/my-skills" className="btn btn-primary btn-sm">
             <span>Add Skills to Profile</span>
-            <ArrowRight size={16} />
           </Link>
         </div>
       )}
 
-      {/* Profile & Request Modals */}
+      {/* User Profile Modal */}
       <UserProfileModal
         studentId={selectedStudentId}
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
-        onRequestExchange={(userObj) => handleRequestExchange(userObj, userObj.teachSkills)}
+        onRequestExchange={(student) => {
+          setIsProfileModalOpen(false);
+          handleRequestExchange(student);
+        }}
       />
 
+      {/* Request Modal */}
       <RequestModal
         targetStudent={targetStudentForRequest}
         isOpen={isRequestModalOpen}

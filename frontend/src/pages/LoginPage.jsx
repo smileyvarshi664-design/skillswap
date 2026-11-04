@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Sparkles, Mail, Lock, ArrowRight, ShieldCheck, UserCheck } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -52,59 +52,62 @@ const LoginPage = () => {
       style={{
         minHeight: '100vh',
         backgroundColor: '#f8fafc',
+        backgroundImage: 'radial-gradient(ellipse at 15% 15%, #eef2ff 0%, #f8fafc 50%, #f1f5f9 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '2.5rem 1rem',
+        padding: '1.25rem',
       }}
     >
       <div
         className="card"
         style={{
-          maxWidth: '520px',
+          maxWidth: '440px',
           width: '100%',
-          padding: '2.5rem',
+          padding: '1.75rem',
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '18px',
           boxShadow: 'var(--shadow-xl)',
+          border: '1px solid #e2e8f0',
         }}
       >
         {/* Brand Header */}
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
           <Link
             to="/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.6rem',
-              marginBottom: '1rem',
+              gap: '0.5rem',
+              marginBottom: '0.65rem',
+              textDecoration: 'none',
             }}
           >
             <div
               style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '12px',
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
                 background: 'linear-gradient(135deg, #6366f1 0%, #3b82f6 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#ffffff',
-                boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                boxShadow: '0 3px 10px rgba(99, 102, 241, 0.3)',
               }}
             >
-              <Sparkles size={22} />
+              <Sparkles size={18} />
             </div>
-            <span style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e1b4b' }}>
+            <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1e1b4b', letterSpacing: '-0.4px' }}>
               Skill<span style={{ color: '#4f46e5' }}>Swap</span>
             </span>
           </Link>
 
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>
+          <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.15 }}>
             Welcome Back
           </h2>
-          <p style={{ color: '#64748b', fontSize: '0.95rem', marginTop: '0.3rem' }}>
-            Sign in to your SkillSwap student or admin portal
+          <p style={{ color: '#64748b', fontSize: '0.825rem', marginTop: '0.2rem' }}>
+            Sign in to your student or administrator portal
           </p>
         </div>
 
@@ -112,14 +115,14 @@ const LoginPage = () => {
         {error && (
           <div
             style={{
-              padding: '0.85rem 1rem',
-              borderRadius: '12px',
+              padding: '0.65rem 0.85rem',
+              borderRadius: '8px',
               backgroundColor: '#fef2f2',
               color: '#dc2626',
               border: '1px solid #fecaca',
-              fontSize: '0.875rem',
+              fontSize: '0.825rem',
               fontWeight: 500,
-              marginBottom: '1.5rem',
+              marginBottom: '1rem',
             }}
           >
             {error}
@@ -130,27 +133,28 @@ const LoginPage = () => {
         <div
           style={{
             backgroundColor: '#eef2ff',
-            borderRadius: '14px',
-            padding: '1rem',
+            borderRadius: '10px',
+            padding: '0.65rem 0.85rem',
             border: '1px solid #c7d2fe',
-            marginBottom: '1.5rem',
+            marginBottom: '1.15rem',
           }}
         >
-          <div style={{ fontSize: '0.775rem', fontWeight: 700, color: '#4338ca', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            ⚡ 1-Click Demo Accounts (For Faculty Demo):
+          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#4338ca', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            ⚡ 1-Click Demo Accounts:
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.35rem' }}>
             <button
               type="button"
               onClick={() => handleQuickLogin('aarav@skillswap.edu', 'Student@123')}
               style={{
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                padding: '0.4rem',
-                borderRadius: '8px',
+                fontSize: '0.725rem',
+                fontWeight: 700,
+                padding: '0.3rem 0.4rem',
+                borderRadius: '6px',
                 backgroundColor: '#ffffff',
                 color: '#4f46e5',
                 border: '1px solid #c7d2fe',
+                cursor: 'pointer',
               }}
             >
               Aarav (Student)
@@ -159,13 +163,14 @@ const LoginPage = () => {
               type="button"
               onClick={() => handleQuickLogin('priya@skillswap.edu', 'Student@123')}
               style={{
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                padding: '0.4rem',
-                borderRadius: '8px',
+                fontSize: '0.725rem',
+                fontWeight: 700,
+                padding: '0.3rem 0.4rem',
+                borderRadius: '6px',
                 backgroundColor: '#ffffff',
                 color: '#2563eb',
                 border: '1px solid #bfdbfe',
+                cursor: 'pointer',
               }}
             >
               Priya (Student)
@@ -174,16 +179,17 @@ const LoginPage = () => {
               type="button"
               onClick={() => handleQuickLogin('admin@skillswap.edu', 'Admin@123')}
               style={{
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                padding: '0.4rem',
-                borderRadius: '8px',
+                fontSize: '0.725rem',
+                fontWeight: 700,
+                padding: '0.3rem 0.4rem',
+                borderRadius: '6px',
                 backgroundColor: '#ffffff',
                 color: '#dc2626',
                 border: '1px solid #fecaca',
+                cursor: 'pointer',
               }}
             >
-              Admin Panel
+              Admin
             </button>
           </div>
         </div>
@@ -226,21 +232,21 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="btn btn-primary btn-lg"
-            style={{ width: '100%', marginTop: '0.75rem' }}
+            className="btn btn-primary"
+            style={{ width: '100%', marginTop: '0.5rem', padding: '0.65rem' }}
           >
             {loading ? (
-              <div className="spinner" style={{ width: '22px', height: '22px' }} />
+              <div className="spinner" style={{ width: '20px', height: '20px' }} />
             ) : (
               <>
                 <span>Sign In to SkillSwap</span>
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </>
             )}
           </button>
 
           {/* Link to Register */}
-          <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem', color: '#64748b' }}>
+          <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.825rem', color: '#64748b' }}>
             New to SkillSwap?{' '}
             <Link to="/register" style={{ color: '#4f46e5', fontWeight: 700 }}>
               Create student account

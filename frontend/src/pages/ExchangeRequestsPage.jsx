@@ -3,14 +3,11 @@ import DashboardLayout from '../components/DashboardLayout';
 import { requestService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import {
-  ArrowLeftRight,
   Inbox,
   Send,
   Check,
   X,
   Clock,
-  CheckCircle,
-  XCircle,
   Ban,
   MessageSquare,
   Building2,
@@ -119,38 +116,40 @@ const ExchangeRequestsPage = () => {
         style={{
           display: 'flex',
           backgroundColor: '#f1f5f9',
-          padding: '4px',
-          borderRadius: '14px',
-          gap: '4px',
+          padding: '3px',
+          borderRadius: '10px',
+          gap: '3px',
           width: 'fit-content',
-          marginBottom: '2rem',
+          marginBottom: '0.85rem',
         }}
       >
         <button
           onClick={() => setActiveTab('received')}
           style={{
-            padding: '0.65rem 1.4rem',
-            borderRadius: '10px',
+            padding: '0.45rem 1rem',
+            borderRadius: '8px',
             backgroundColor: activeTab === 'received' ? '#ffffff' : 'transparent',
             color: activeTab === 'received' ? '#4f46e5' : '#64748b',
             fontWeight: 700,
-            fontSize: '0.9rem',
+            fontSize: '0.825rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.35rem',
             boxShadow: activeTab === 'received' ? 'var(--shadow-sm)' : 'none',
-            transition: 'all 0.15s ease',
+            transition: 'all 0.12s ease',
+            border: 'none',
+            cursor: 'pointer',
           }}
         >
-          <Inbox size={17} />
-          <span>Received Requests ({receivedRequests.length})</span>
+          <Inbox size={15} />
+          <span>Received ({receivedRequests.length})</span>
           {pendingReceivedCount > 0 && (
             <span
               style={{
-                fontSize: '0.7rem',
+                fontSize: '0.65rem',
                 backgroundColor: '#ef4444',
                 color: '#ffffff',
-                padding: '1px 6px',
+                padding: '1px 5px',
                 borderRadius: '999px',
                 fontWeight: 700,
               }}
@@ -163,32 +162,34 @@ const ExchangeRequestsPage = () => {
         <button
           onClick={() => setActiveTab('sent')}
           style={{
-            padding: '0.65rem 1.4rem',
-            borderRadius: '10px',
+            padding: '0.45rem 1rem',
+            borderRadius: '8px',
             backgroundColor: activeTab === 'sent' ? '#ffffff' : 'transparent',
             color: activeTab === 'sent' ? '#2563eb' : '#64748b',
             fontWeight: 700,
-            fontSize: '0.9rem',
+            fontSize: '0.825rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.35rem',
             boxShadow: activeTab === 'sent' ? 'var(--shadow-sm)' : 'none',
-            transition: 'all 0.15s ease',
+            transition: 'all 0.12s ease',
+            border: 'none',
+            cursor: 'pointer',
           }}
         >
-          <Send size={17} />
-          <span>Sent Requests ({sentRequests.length})</span>
+          <Send size={15} />
+          <span>Sent ({sentRequests.length})</span>
         </button>
       </div>
 
       {/* Requests List */}
       {loading ? (
-        <div style={{ padding: '5rem', textAlign: 'center' }}>
-          <div className="spinner" style={{ margin: '0 auto 1rem' }} />
-          <span style={{ color: '#64748b' }}>Loading exchange requests...</span>
+        <div style={{ padding: '3rem', textAlign: 'center' }}>
+          <div className="spinner" style={{ margin: '0 auto 0.5rem', width: '22px', height: '22px' }} />
+          <span style={{ color: '#64748b', fontSize: '0.825rem' }}>Loading exchange requests...</span>
         </div>
       ) : currentRequests.length > 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
           {currentRequests.map((req) => {
             const student = activeTab === 'received' ? req.senderId : req.receiverId;
             const isPending = req.status === 'Pending';
@@ -199,9 +200,10 @@ const ExchangeRequestsPage = () => {
                 key={req._id}
                 className="card"
                 style={{
-                  padding: '1.5rem',
+                  padding: '0.85rem 1rem',
                   backgroundColor: '#ffffff',
-                  borderLeft: `4px solid ${
+                  borderRadius: '12px',
+                  borderLeft: `3.5px solid ${
                     req.status === 'Pending'
                       ? '#f59e0b'
                       : req.status === 'Accepted'
@@ -216,34 +218,34 @@ const ExchangeRequestsPage = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: '1rem',
-                    marginBottom: '1rem',
+                    gap: '0.65rem',
+                    marginBottom: '0.65rem',
                   }}
                 >
                   {/* Student Info */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                     <img
                       src={student?.profileImage || 'https://api.dicebear.com/7.x/bottts/svg?seed=student'}
                       alt={student?.name}
-                      style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }}
+                      style={{ width: '38px', height: '38px', borderRadius: '10px', objectFit: 'cover', flexShrink: 0 }}
                     />
                     <div>
-                      <h4 style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f172a' }}>
+                      <h4 style={{ fontWeight: 800, fontSize: '0.925rem', color: '#0f172a' }}>
                         {student?.name || 'Student Peer'}
                       </h4>
-                      <div style={{ fontSize: '0.8rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <Building2 size={13} color="#6366f1" />
+                      <div style={{ fontSize: '0.725rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <Building2 size={12} color="#6366f1" />
                         <span>{student?.college} • {student?.department}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Status Badge */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span className={`badge badge-status-${req.status.toLowerCase()}`}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                    <span className={`badge badge-status-${req.status.toLowerCase()}`} style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
                       {req.status}
                     </span>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                    <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
                       {new Date(req.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -253,78 +255,75 @@ const ExchangeRequestsPage = () => {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                    gap: '1rem',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '0.65rem',
                     backgroundColor: '#f8fafc',
-                    padding: '1rem 1.25rem',
-                    borderRadius: '12px',
+                    padding: '0.65rem 0.85rem',
+                    borderRadius: '10px',
                     border: '1px solid #e2e8f0',
-                    marginBottom: '1rem',
+                    marginBottom: '0.65rem',
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: '0.725rem', fontWeight: 700, color: '#4338ca', textTransform: 'uppercase' }}>
-                      {activeTab === 'received' ? 'THEY OFFER TO TEACH YOU:' : 'YOU OFFERED TO TEACH:'}
+                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#4338ca', textTransform: 'uppercase' }}>
+                      {activeTab === 'received' ? 'THEY OFFER TO TEACH:' : 'YOU OFFERED TO TEACH:'}
                     </span>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1e1b4b', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e1b4b', marginTop: '1px' }}>
                       {req.offeredSkill}
                     </div>
                   </div>
 
                   <div>
-                    <span style={{ fontSize: '0.725rem', fontWeight: 700, color: '#1e40af', textTransform: 'uppercase' }}>
-                      {activeTab === 'received' ? 'THEY WANT TO LEARN FROM YOU:' : 'YOU REQUESTED TO LEARN:'}
+                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#1e40af', textTransform: 'uppercase' }}>
+                      {activeTab === 'received' ? 'THEY WANT TO LEARN:' : 'YOU REQUESTED TO LEARN:'}
                     </span>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1e3a8a', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e3a8a', marginTop: '1px' }}>
                       {req.requestedSkill}
                     </div>
                   </div>
                 </div>
 
-                {/* Message */}
+                {/* Message if any */}
                 {req.message && (
                   <div
                     style={{
-                      fontSize: '0.85rem',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '0.45rem',
+                      fontSize: '0.78rem',
                       color: '#475569',
-                      lineHeight: 1.5,
-                      marginBottom: '1rem',
-                      fontStyle: 'italic',
                       backgroundColor: '#ffffff',
-                      padding: '0.5rem 0',
+                      padding: '0.45rem 0.65rem',
+                      borderRadius: '8px',
+                      border: '1px solid #f1f5f9',
+                      marginBottom: '0.65rem',
                     }}
                   >
-                    "{req.message}"
+                    <MessageSquare size={13} color="#94a3b8" style={{ marginTop: '2px', flexShrink: 0 }} />
+                    <span style={{ fontStyle: 'italic' }}>"{req.message}"</span>
                   </div>
                 )}
 
                 {/* Action Buttons */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    gap: '0.6rem',
-                    paddingTop: '0.85rem',
-                    borderTop: '1px solid #f1f5f9',
-                  }}
-                >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '0.45rem' }}>
                   {activeTab === 'received' && isPending && (
                     <>
                       <button
                         onClick={() => handleReject(req._id)}
                         disabled={isActionBusy}
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-secondary btn-sm"
+                        style={{ fontSize: '0.75rem', padding: '0.3rem 0.65rem' }}
                       >
-                        <X size={15} />
+                        <X size={13} />
                         <span>Decline</span>
                       </button>
                       <button
                         onClick={() => handleAccept(req._id)}
                         disabled={isActionBusy}
                         className="btn btn-primary btn-sm"
+                        style={{ fontSize: '0.75rem', padding: '0.3rem 0.75rem' }}
                       >
-                        <Check size={15} />
+                        <Check size={13} />
                         <span>Accept Proposal</span>
                       </button>
                     </>
@@ -335,16 +334,17 @@ const ExchangeRequestsPage = () => {
                       onClick={() => handleCancel(req._id)}
                       disabled={isActionBusy}
                       className="btn btn-secondary btn-sm"
+                      style={{ fontSize: '0.75rem', padding: '0.3rem 0.65rem' }}
                     >
-                      <Ban size={15} />
+                      <Ban size={13} />
                       <span>Cancel Request</span>
                     </button>
                   )}
 
-                  {req.status === 'Accepted' && (
-                    <Link to="/exchanges" className="btn btn-secondary btn-sm">
-                      <span>View in Active Exchanges →</span>
-                    </Link>
+                  {!isPending && (
+                    <span style={{ fontSize: '0.725rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                      Resolved on {new Date(req.updatedAt || req.createdAt).toLocaleDateString()}
+                    </span>
                   )}
                 </div>
               </div>
@@ -355,36 +355,40 @@ const ExchangeRequestsPage = () => {
         <div
           className="card"
           style={{
-            padding: '4rem 2rem',
+            padding: '2.5rem 1.5rem',
             textAlign: 'center',
             backgroundColor: '#ffffff',
+            borderRadius: '14px',
           }}
         >
           <div
             style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '20px',
-              backgroundColor: '#f1f5f9',
-              color: '#94a3b8',
+              width: '48px',
+              height: '48px',
+              borderRadius: '14px',
+              backgroundColor: activeTab === 'received' ? '#eef2ff' : '#eff6ff',
+              color: activeTab === 'received' ? '#4f46e5' : '#2563eb',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 1rem',
+              margin: '0 auto 0.65rem',
             }}
           >
-            {activeTab === 'received' ? <Inbox size={30} /> : <Send size={30} />}
+            {activeTab === 'received' ? <Inbox size={24} /> : <Send size={24} />}
           </div>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1e293b' }}>
-            No {activeTab === 'received' ? 'Received' : 'Sent'} Requests
+
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>
+            No {activeTab === 'received' ? 'Received' : 'Sent'} Exchange Requests
           </h3>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', maxWidth: '420px', margin: '0.5rem auto 1.5rem' }}>
+
+          <p style={{ color: '#64748b', fontSize: '0.85rem', maxWidth: '380px', margin: '0.35rem auto 1rem' }}>
             {activeTab === 'received'
-              ? 'When other students find your teaching skills and propose an exchange, they will appear here.'
-              : 'Browse students or smart matches and send an exchange request to start learning!'}
+              ? 'When other students want to exchange skills with you, their proposals will appear here.'
+              : 'Browse students and propose skill exchanges to begin peer sessions!'}
           </p>
-          <Link to="/matches" className="btn btn-primary">
-            <span>Find Skill Matches</span>
+
+          <Link to="/explore" className="btn btn-primary btn-sm">
+            <span>Explore Students</span>
           </Link>
         </div>
       )}

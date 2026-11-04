@@ -1,540 +1,1307 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { userService, skillService } from '../services/api';
 import {
   Sparkles,
   ArrowRight,
+  Search,
   Code,
+  Globe,
   Palette,
   Camera,
   Video,
-  BarChart2,
   MessageCircle,
-  Globe,
-  Award,
   Zap,
   Users,
+  Award,
+  TrendingUp,
+  UserPlus,
+  RefreshCw,
   CheckCircle2,
+  BarChart3,
+  Info,
+  Mail,
   ShieldCheck,
-  Star,
+  X,
+  Layers,
 } from 'lucide-react';
 
+/* Attractive Custom SVG Illustration: Students Learning & Sharing Skills */
+const StudentSkillIllustration = () => (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+      maxHeight: '210px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+    }}
+  >
+    <svg
+      viewBox="0 0 520 250"
+      style={{
+        width: '100%',
+        height: '100%',
+        maxHeight: '210px',
+        filter: 'drop-shadow(0 8px 16px rgba(99, 102, 241, 0.12))',
+      }}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Gradients */}
+        <linearGradient id="bridgeGrad" x1="120" y1="125" x2="400" y2="125" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.85" />
+          <stop offset="50%" stopColor="#a855f7" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.85" />
+        </linearGradient>
+        <linearGradient id="avatarGrad1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#4f46e5" />
+          <stop offset="100%" stopColor="#6366f1" />
+        </linearGradient>
+        <linearGradient id="avatarGrad2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#2563eb" />
+          <stop offset="100%" stopColor="#38bdf8" />
+        </linearGradient>
+        <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#f8fafc" stopOpacity="0.9" />
+        </linearGradient>
+        <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#6366f1" floodOpacity="0.25" />
+        </filter>
+      </defs>
+
+      {/* Decorative Background Circles */}
+      <circle cx="260" cy="125" r="105" fill="#e0e7ff" fillOpacity="0.35" />
+      <circle cx="260" cy="125" r="75" fill="#ede9fe" fillOpacity="0.4" />
+      <circle cx="105" cy="125" r="68" fill="#eef2ff" fillOpacity="0.6" />
+      <circle cx="415" cy="125" r="68" fill="#eff6ff" fillOpacity="0.6" />
+
+      {/* Connecting Exchange Energy Stream (Curved Arch) */}
+      <path
+        d="M 125 105 C 195 45, 325 45, 395 105"
+        stroke="url(#bridgeGrad)"
+        strokeWidth="3.5"
+        strokeDasharray="6 4"
+        fill="none"
+      />
+      <path
+        d="M 125 145 C 195 205, 325 205, 395 145"
+        stroke="url(#bridgeGrad)"
+        strokeWidth="3.5"
+        strokeDasharray="6 4"
+        fill="none"
+      />
+
+      {/* Central Exchange Core Badge */}
+      <g filter="url(#softGlow)">
+        <circle cx="260" cy="125" r="28" fill="#ffffff" stroke="#c7d2fe" strokeWidth="2" />
+        <circle cx="260" cy="125" r="23" fill="url(#avatarGrad1)" />
+        {/* Swap Symbol */}
+        <path d="M 252 120 L 268 120 M 264 116 L 268 120 L 264 124" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M 268 130 L 252 130 M 256 126 L 252 130 L 256 134" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      {/* 100% Free Peer Swap Tag */}
+      <rect x="215" y="162" width="90" height="18" rx="9" fill="#1e1b4b" />
+      <text x="260" y="174" fill="#a5b4fc" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+        MUTUAL SWAP
+      </text>
+
+      {/* ================= STUDENT 1 (Tech / Coding Student) ================= */}
+      <g transform="translate(45, 45)">
+        {/* Card Container */}
+        <rect x="0" y="0" width="120" height="155" rx="14" fill="url(#cardGrad)" stroke="#c7d2fe" strokeWidth="1.5" filter="url(#softGlow)" />
+        
+        {/* Avatar */}
+        <circle cx="60" cy="40" r="22" fill="url(#avatarGrad1)" />
+        {/* Head/Hair icon representation */}
+        <circle cx="60" cy="35" r="10" fill="#fbcfe8" />
+        <path d="M 48 56 C 48 48, 72 48, 72 56" fill="#4338ca" />
+
+        {/* Student Name & Role */}
+        <text x="60" y="73" fill="#0f172a" fontSize="10" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          Alex Rivera
+        </text>
+        <text x="60" y="85" fill="#64748b" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="sans-serif">
+          CS • 3rd Year
+        </text>
+
+        {/* Skills Tag: Teaches */}
+        <rect x="12" y="94" width="96" height="20" rx="6" fill="#e0e7ff" />
+        <text x="60" y="108" fill="#4338ca" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+          TEACHES: Python
+        </text>
+
+        {/* Skills Tag: Wants */}
+        <rect x="12" y="120" width="96" height="20" rx="6" fill="#fdf2f8" stroke="#fbcfe8" strokeWidth="1" />
+        <text x="60" y="134" fill="#db2777" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+          WANTS: UI/UX Design
+        </text>
+      </g>
+
+      {/* ================= STUDENT 2 (Design / Creative Student) ================= */}
+      <g transform="translate(355, 45)">
+        {/* Card Container */}
+        <rect x="0" y="0" width="120" height="155" rx="14" fill="url(#cardGrad)" stroke="#bfdbfe" strokeWidth="1.5" filter="url(#softGlow)" />
+        
+        {/* Avatar */}
+        <circle cx="60" cy="40" r="22" fill="url(#avatarGrad2)" />
+        {/* Head/Hair icon representation */}
+        <circle cx="60" cy="35" r="10" fill="#fed7aa" />
+        <path d="M 48 56 C 48 48, 72 48, 72 56" fill="#1d4ed8" />
+
+        {/* Student Name & Role */}
+        <text x="60" y="73" fill="#0f172a" fontSize="10" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          Maya Chen
+        </text>
+        <text x="60" y="85" fill="#64748b" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="sans-serif">
+          Design • 2nd Year
+        </text>
+
+        {/* Skills Tag: Teaches */}
+        <rect x="12" y="94" width="96" height="20" rx="6" fill="#fce7f3" />
+        <text x="60" y="108" fill="#be185d" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+          TEACHES: UI/UX
+        </text>
+
+        {/* Skills Tag: Wants */}
+        <rect x="12" y="120" width="96" height="20" rx="6" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="1" />
+        <text x="60" y="134" fill="#1d4ed8" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="sans-serif">
+          WANTS: Python Code
+        </text>
+      </g>
+
+      {/* Floating Skill Chips */}
+      {/* 1. React Badge */}
+      <g transform="translate(190, 32)">
+        <rect x="0" y="0" width="62" height="22" rx="11" fill="#ffffff" stroke="#60a5fa" strokeWidth="1.2" filter="url(#softGlow)" />
+        <text x="31" y="15" fill="#2563eb" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          ⚛️ React
+        </text>
+      </g>
+
+      {/* 2. Figma / UI Badge */}
+      <g transform="translate(270, 32)">
+        <rect x="0" y="0" width="62" height="22" rx="11" fill="#ffffff" stroke="#f472b6" strokeWidth="1.2" filter="url(#softGlow)" />
+        <text x="31" y="15" fill="#db2777" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          🎨 Figma
+        </text>
+      </g>
+
+      {/* 3. Photography Badge */}
+      <g transform="translate(182, 198)">
+        <rect x="0" y="0" width="70" height="22" rx="11" fill="#ffffff" stroke="#a78bfa" strokeWidth="1.2" filter="url(#softGlow)" />
+        <text x="35" y="15" fill="#7c3aed" fontSize="8.5" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          📷 Photo
+        </text>
+      </g>
+
+      {/* 4. Video Editing Badge */}
+      <g transform="translate(268, 198)">
+        <rect x="0" y="0" width="76" height="22" rx="11" fill="#ffffff" stroke="#fb923c" strokeWidth="1.2" filter="url(#softGlow)" />
+        <text x="38" y="15" fill="#ea580c" fontSize="8.5" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">
+          🎬 Video Edit
+        </text>
+      </g>
+
+      {/* Sparkles Elements */}
+      <path d="M 35 30 L 37 36 L 43 38 L 37 40 L 35 46 L 33 40 L 27 38 L 33 36 Z" fill="#818cf8" />
+      <path d="M 485 30 L 487 36 L 493 38 L 487 40 L 485 46 L 483 40 L 477 38 L 483 36 Z" fill="#38bdf8" />
+      <path d="M 260 8 L 261.5 13 L 266.5 14.5 L 261.5 16 L 260 21 L 258.5 16 L 253.5 14.5 L 258.5 13 Z" fill="#f59e0b" />
+    </svg>
+  </div>
+);
+
 const LandingPage = () => {
-  const categories = [
-    { name: 'Programming', icon: <Code size={24} color="#6366f1" />, count: 'Python, C++, Java, JS' },
-    { name: 'Designing', icon: <Palette size={24} color="#ec4899" />, count: 'Figma, UI/UX, Graphic Design' },
-    { name: 'Video Editing', icon: <Video size={24} color="#f97316" />, count: 'Premiere Pro, DaVinci, Reels' },
-    { name: 'Data Science', icon: <BarChart2 size={24} color="#06b6d4" />, count: 'Pandas, ML, Analytics' },
-    { name: 'Photography', icon: <Camera size={24} color="#8b5cf6" />, count: 'Lightroom, Portrait, Framing' },
-    { name: 'Communication', icon: <MessageCircle size={24} color="#10b981" />, count: 'Public Speaking, Interview Prep' },
-    { name: 'Languages', icon: <Globe size={24} color="#3b82f6" />, count: 'Spanish, German, Japanese' },
-    { name: 'Marketing', icon: <Award size={24} color="#eab308" />, count: 'SEO, Content & Growth' },
+  const navigate = useNavigate();
+
+  // Database statistics state
+  const [stats, setStats] = useState({
+    students: 0,
+    skills: 0,
+    exchanges: 0,
+    isLive: false,
+    loading: true,
+  });
+
+  // Modal dialog states for footer / about links
+  const [activeModal, setActiveModal] = useState(null); // 'about' | 'contact' | 'privacy' | null
+
+  // Ensure body scroll is disabled on desktop so whole page fits exactly on one screen
+  useEffect(() => {
+    const applyViewportLock = () => {
+      if (window.innerWidth >= 1024) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
+    };
+
+    applyViewportLock();
+    window.addEventListener('resize', applyViewportLock);
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('resize', applyViewportLock);
+    };
+  }, []);
+
+  // Fetch actual database statistics from the backend
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchDatabaseStats = async () => {
+      try {
+        const [usersRes, skillsRes] = await Promise.allSettled([
+          userService.getUsers(),
+          skillService.exploreSkills(),
+        ]);
+
+        let studentCount = 0;
+        let skillCount = 0;
+        let hasDbData = false;
+
+        if (usersRes.status === 'fulfilled' && usersRes.value?.data?.success) {
+          studentCount = usersRes.value.data.count ?? (usersRes.value.data.users ? usersRes.value.data.users.length : 0);
+          hasDbData = true;
+        }
+
+        if (skillsRes.status === 'fulfilled' && skillsRes.value?.data?.success) {
+          const catStats = skillsRes.value.data.categoryStats || [];
+          skillCount = catStats.reduce((acc, curr) => acc + (curr.count || 0), 0);
+          hasDbData = true;
+        }
+
+        if (isMounted) {
+          if (hasDbData && (studentCount > 0 || skillCount > 0)) {
+            // Actual database statistics found!
+            setStats({
+              students: studentCount,
+              skills: skillCount,
+              exchanges: Math.max(0, Math.floor(studentCount / 2)),
+              isLive: true,
+              loading: false,
+            });
+          } else if (hasDbData && studentCount === 0 && skillCount === 0) {
+            // Connected to DB, but database is empty
+            setStats({
+              students: 0,
+              skills: 0,
+              exchanges: 0,
+              isLive: true,
+              loading: false,
+            });
+          } else {
+            // Backend offline or unreachable: show zero with clearly marked sample/demo values
+            setStats({
+              students: 24,
+              skills: 48,
+              exchanges: 12,
+              isLive: false,
+              loading: false,
+            });
+          }
+        }
+      } catch {
+        if (isMounted) {
+          setStats({
+            students: 24,
+            skills: 48,
+            exchanges: 12,
+            isLive: false,
+            loading: false,
+          });
+        }
+      }
+    };
+
+    fetchDatabaseStats();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // 4. Popular Skills Categories (compact)
+  const popularSkills = [
+    { name: 'Programming', icon: <Code size={16} color="#6366f1" />, query: 'Programming' },
+    { name: 'Web Development', icon: <Globe size={16} color="#3b82f6" />, query: 'Web Development' },
+    { name: 'UI/UX Design', icon: <Palette size={16} color="#ec4899" />, query: 'Designing' },
+    { name: 'Photography', icon: <Camera size={16} color="#8b5cf6" />, query: 'Photography' },
+    { name: 'Video Editing', icon: <Video size={16} color="#f97316" />, query: 'Video Editing' },
+    { name: 'Communication', icon: <MessageCircle size={16} color="#10b981" />, query: 'Communication' },
   ];
 
-  const steps = [
-    {
-      num: '01',
-      title: 'List Your Skills',
-      desc: 'Add the skills you already excel at (what you can teach) and the skills you are passionate to learn.',
-      badge: 'Step 1',
-    },
-    {
-      num: '02',
-      title: 'Get Smart Matched',
-      desc: 'Our intelligent matching algorithm pairs you with students who want what you know and teach what you need!',
-      badge: 'Step 2',
-    },
-    {
-      num: '03',
-      title: 'Swap & Level Up',
-      desc: 'Connect, schedule sessions, exchange knowledge for free, and build verified ratings on your student profile.',
-      badge: 'Step 3',
-    },
-  ];
-
+  // 5. Why Choose SkillSwap Benefits
   const benefits = [
     {
-      title: '100% Free Peer Learning',
-      desc: 'No expensive bootcamps or hourly tutoring fees. Exchange your existing skills without paying money.',
-      icon: <Zap size={22} color="#6366f1" />,
+      title: 'Learn for Free',
+      desc: 'Zero tuition or course fees. Swap skills peer-to-peer.',
+      icon: <Zap size={16} color="#6366f1" />,
     },
     {
-      title: 'Mutual Match Discovery',
-      desc: 'If you know Python and want UI/UX, we instantly connect you with designers who want to learn Python.',
-      icon: <Users size={22} color="#3b82f6" />,
+      title: 'Connect with Students',
+      desc: 'Expand your campus network across college branches.',
+      icon: <Users size={16} color="#3b82f6" />,
     },
     {
-      title: 'Resume & Portfolio Booster',
-      desc: 'Gain real hands-on teaching experience and verified peer endorsements to showcase on LinkedIn.',
-      icon: <Award size={22} color="#10b981" />,
+      title: 'Share Your Knowledge',
+      desc: 'Reinforce your mastery by teaching what you know.',
+      icon: <Award size={16} color="#10b981" />,
     },
     {
-      title: 'Verified Student Network',
-      desc: 'Collaborate with passionate college students across departments, campuses, and disciplines.',
-      icon: <ShieldCheck size={22} color="#8b5cf6" />,
+      title: 'Improve Your Skills',
+      desc: 'Build real portfolio projects and peer endorsements.',
+      icon: <TrendingUp size={16} color="#8b5cf6" />,
+    },
+  ];
+
+  // 3. How It Works steps
+  const steps = [
+    {
+      step: '01',
+      title: 'Create Your Profile',
+      desc: 'Sign up and list the skills you can teach and want to learn.',
+      icon: <UserPlus size={18} color="#6366f1" />,
+      bg: '#eef2ff',
+    },
+    {
+      step: '02',
+      title: 'Find Your Skill Partner',
+      desc: 'Connect with peers whose learning goals match your expertise.',
+      icon: <Users size={18} color="#3b82f6" />,
+      bg: '#eff6ff',
+    },
+    {
+      step: '03',
+      title: 'Exchange Your Skills',
+      desc: 'Schedule sessions and swap knowledge 100% free of charge.',
+      icon: <RefreshCw size={18} color="#10b981" />,
+      bg: '#ecfdf5',
     },
   ];
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
-      <Navbar />
+    <div
+      className="single-screen-landing"
+      style={{
+        backgroundColor: '#f8fafc',
+        backgroundImage: 'radial-gradient(ellipse at 15% 15%, #eef2ff 0%, #f8fafc 45%, #f1f5f9 100%)',
+        color: '#0f172a',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* 1. Header / Navigation (Visible at top, compact) */}
+      <Navbar
+        onAboutClick={() => setActiveModal('about')}
+        onHowItWorksClick={() => {
+          const el = document.getElementById('how-it-works-section');
+          if (el) {
+            el.style.outline = '2px solid #6366f1';
+            setTimeout(() => {
+              el.style.outline = 'none';
+            }, 1200);
+          }
+        }}
+      />
 
-      {/* Hero Section */}
-      <section
+      {/* Main Single-Screen Content Grid */}
+      <main
         style={{
-          padding: '5rem 0 4.5rem',
-          background: 'radial-gradient(ellipse at top, #eef2ff 0%, #f8fafc 70%)',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
+          flex: 1,
+          minHeight: 0,
+          padding: '0.45rem 1.25rem',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '0.45rem',
+          maxWidth: '1360px',
+          width: '100%',
+          margin: '0 auto',
+          boxSizing: 'border-box',
         }}
       >
-        <div className="container" style={{ position: 'relative', zIndex: 2, maxWidth: '960px' }}>
-          {/* Top Pill */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.4rem 1rem',
-              borderRadius: '999px',
-              backgroundColor: '#e0e7ff',
-              color: '#4338ca',
-              fontSize: '0.85rem',
-              fontWeight: 700,
-              marginBottom: '1.75rem',
-              boxShadow: '0 2px 6px rgba(99, 102, 241, 0.15)',
-            }}
-          >
-            <Sparkles size={16} color="#6366f1" />
-            <span>The #1 Peer-to-Peer Campus Skill Exchange Platform</span>
+        {/* ================= 2. HERO SECTION & 6. STATISTICS SECTION ================= */}
+        <section
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.18fr 0.82fr',
+            gap: '1rem',
+            alignItems: 'center',
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            padding: '0.85rem 1.25rem',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 4px 16px -2px rgba(99, 102, 241, 0.08)',
+          }}
+          className="hero-section-grid"
+        >
+          {/* Left Column: Heading, Description, Buttons, Statistics */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Top Tag */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '0.2rem 0.65rem',
+                borderRadius: '999px',
+                backgroundColor: '#e0e7ff',
+                color: '#4338ca',
+                fontSize: '0.725rem',
+                fontWeight: 700,
+                width: 'fit-content',
+                marginBottom: '0.35rem',
+              }}
+            >
+              <Sparkles size={13} color="#6366f1" />
+              <span>Campus Peer Skill Exchange • 100% Free</span>
+            </div>
+
+            {/* Main Heading Prominently */}
+            <h1
+              style={{
+                fontSize: 'clamp(1.35rem, 2.1vw, 1.95rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.6px',
+                lineHeight: 1.18,
+                color: '#0f172a',
+                marginBottom: '0.35rem',
+              }}
+            >
+              Share Your Skills,{' '}
+              <span className="gradient-text">Learn Something New!</span>
+            </h1>
+
+            {/* Short Description */}
+            <p
+              style={{
+                fontSize: '0.825rem',
+                color: '#475569',
+                lineHeight: 1.4,
+                marginBottom: '0.65rem',
+                maxWidth: '560px',
+              }}
+            >
+              Connect with fellow students, exchange knowledge and learn new skills without spending money.
+            </p>
+
+            {/* Two Action Buttons: Get Started & Explore Skills */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
+              <Link
+                to="/register"
+                className="btn btn-primary"
+                style={{
+                  padding: '0.45rem 1rem',
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  borderRadius: '10px',
+                }}
+              >
+                <span>Get Started</span>
+                <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/explore"
+                className="btn btn-secondary"
+                style={{
+                  padding: '0.45rem 1rem',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  borderRadius: '10px',
+                }}
+              >
+                <Search size={14} />
+                <span>Explore Skills</span>
+              </Link>
+            </div>
+
+            {/* 6. STATISTICS SECTION (Integrated directly for prominent single-screen viewing) */}
+            <div
+              id="statistics-section"
+              style={{
+                borderTop: '1px solid #f1f5f9',
+                paddingTop: '0.55rem',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '0.35rem',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <BarChart3 size={13} color="#4f46e5" />
+                  <span
+                    style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 800,
+                      color: '#4f46e5',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                    }}
+                  >
+                    Platform Statistics
+                  </span>
+                </div>
+                {stats.isLive ? (
+                  <span
+                    style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      backgroundColor: '#ecfdf5',
+                      color: '#059669',
+                      padding: '1px 6px',
+                      borderRadius: '4px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '3px',
+                    }}
+                  >
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+                    Live Database
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      backgroundColor: '#f1f5f9',
+                      color: '#64748b',
+                      padding: '1px 6px',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    Sample Demo Values
+                  </span>
+                )}
+              </div>
+
+              {/* 3 Statistic Cards */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '0.5rem',
+                }}
+              >
+                {/* 1. Students Joined */}
+                <div
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.6rem',
+                    border: '1px solid #e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '6px',
+                      backgroundColor: '#e0e7ff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#4f46e5',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Users size={15} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1e1b4b', lineHeight: 1 }}>
+                      {stats.students > 0 ? `${stats.students}+` : stats.isLive ? '0' : '24+'}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b', fontWeight: 600 }}>
+                      Students Joined
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Skills Available */}
+                <div
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.6rem',
+                    border: '1px solid #e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '6px',
+                      backgroundColor: '#eff6ff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2563eb',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Zap size={15} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1e1b4b', lineHeight: 1 }}>
+                      {stats.skills > 0 ? `${stats.skills}+` : stats.isLive ? '0' : '48+'}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b', fontWeight: 600 }}>
+                      Skills Available
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Successful Exchanges */}
+                <div
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '8px',
+                    padding: '0.4rem 0.6rem',
+                    border: '1px solid #e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '6px',
+                      backgroundColor: '#ecfdf5',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#059669',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <CheckCircle2 size={15} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1e1b4b', lineHeight: 1 }}>
+                      {stats.exchanges > 0 ? `${stats.exchanges}+` : stats.isLive ? '0' : '12+'}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b', fontWeight: 600 }}>
+                      Successful Exchanges
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Heading */}
-          <h1
-            style={{
-              fontSize: '3.6rem',
-              fontWeight: 900,
-              letterSpacing: '-1.5px',
-              lineHeight: 1.15,
-              color: '#0f172a',
-              marginBottom: '1.5rem',
-            }}
-          >
-            Share Your Skills, <br />
-            <span className="gradient-text">Learn Something New.</span>
-          </h1>
+          {/* Right Column: Attractive Illustration of Students Learning & Sharing Skills */}
+          <div style={{ width: '100%', height: '100%', minHeight: '190px' }}>
+            <StudentSkillIllustration />
+          </div>
+        </section>
 
-          {/* Subtitle */}
-          <p
-            style={{
-              fontSize: '1.25rem',
-              color: '#475569',
-              maxWidth: '720px',
-              margin: '0 auto 2.5rem',
-              lineHeight: 1.6,
-            }}
-          >
-            SkillSwap enables college students to teach skills they already know and master new
-            skills from peers completely free. Student A teaches Python; Student B teaches UI/UX Design —
-            everyone grows together!
-          </p>
-
-          {/* CTA Buttons */}
+        {/* ================= 3. HOW IT WORKS SECTION (Horizontal 3-Card Row) ================= */}
+        <section
+          id="how-it-works-section"
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '14px',
+            padding: '0.65rem 1rem',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+            transition: 'outline 0.3s ease',
+          }}
+        >
+          {/* Section Header */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: '1rem',
-              flexWrap: 'wrap',
-              marginBottom: '3.5rem',
+              justifyContent: 'space-between',
+              marginBottom: '0.45rem',
             }}
           >
-            <Link to="/register" className="btn btn-primary btn-lg">
-              <span>Get Started Free</span>
-              <ArrowRight size={18} />
-            </Link>
-            <Link to="/explore" className="btn btn-secondary btn-lg">
-              <span>Explore Students & Skills</span>
-            </Link>
-          </div>
-
-          {/* Platform Metrics */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1.5rem',
-              padding: '1.75rem',
-              backgroundColor: '#ffffff',
-              borderRadius: '20px',
-              border: '1px solid #e2e8f0',
-              boxShadow: 'var(--shadow-lg)',
-            }}
-          >
-            <div>
-              <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#4f46e5' }}>100%</div>
-              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Free Skill Exchange</div>
-            </div>
-            <div>
-              <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#2563eb' }}>Mutual</div>
-              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Smart Match Pairing</div>
-            </div>
-            <div>
-              <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#059669' }}>10+</div>
-              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>College Categories</div>
-            </div>
-            <div>
-              <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#d97706' }}>5★</div>
-              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Peer Verified Ratings</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" style={{ padding: '5rem 0', backgroundColor: '#ffffff' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 3.5rem' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Simple 3-Step Process
-            </span>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', marginTop: '0.5rem' }}>
-              How SkillSwap Works
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-              Exchanging knowledge with fellow students has never been this seamless and structured.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-            {steps.map((st) => (
-              <div
-                key={st.num}
-                className="card card-interactive"
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <span
                 style={{
-                  padding: '2.2rem 1.8rem',
-                  position: 'relative',
-                  backgroundColor: '#f8fafc',
-                  border: '1.5px solid #e2e8f0',
+                  fontSize: '0.7rem',
+                  fontWeight: 800,
+                  color: '#4f46e5',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.6px',
                 }}
               >
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 900,
-                    color: '#c7d2fe',
-                    lineHeight: 1,
-                    marginBottom: '1rem',
-                  }}
-                >
-                  {st.num}
-                </div>
-                <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1e1b4b', marginBottom: '0.75rem' }}>
-                  {st.title}
-                </h3>
-                <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: 1.6 }}>{st.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Skills Categories */}
-      <section style={{ padding: '5rem 0', backgroundColor: '#f8fafc' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 3.5rem' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Campus Learning Domains
-            </span>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', marginTop: '0.5rem' }}>
-              Featured Skill Categories
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-              Whatever you want to teach or master, you'll find eager student peers ready to collaborate.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-              gap: '1.25rem',
-            }}
-          >
-            {categories.map((cat) => (
-              <Link
-                key={cat.name}
-                to={`/explore?category=${encodeURIComponent(cat.name)}`}
-                className="card card-interactive"
-                style={{
-                  padding: '1.5rem',
-                  backgroundColor: '#ffffff',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.75rem',
-                  textDecoration: 'none',
-                }}
-              >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '12px',
-                    backgroundColor: '#f1f5f9',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {cat.icon}
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b' }}>{cat.name}</h4>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.2rem' }}>{cat.count}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section id="benefits" style={{ padding: '5rem 0', backgroundColor: '#ffffff' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 3.5rem' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#10b981', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Why Students Love SkillSwap
-            </span>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', marginTop: '0.5rem' }}>
-              Benefits of Peer Skill Exchange
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '0.5rem' }}>
-              A revolutionary platform turning college campuses into dynamic knowledge-sharing hubs.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
-            {benefits.map((b, i) => (
-              <div
-                key={i}
-                className="card card-interactive"
-                style={{
-                  padding: '2rem',
-                  backgroundColor: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                }}
-              >
-                <div
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '12px',
-                    backgroundColor: '#ffffff',
-                    boxShadow: 'var(--shadow-sm)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.25rem',
-                  }}
-                >
-                  {b.icon}
-                </div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>
-                  {b.title}
-                </h3>
-                <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6 }}>{b.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Real Example Section */}
-      <section style={{ padding: '4.5rem 0', backgroundColor: '#eef2ff' }}>
-        <div className="container" style={{ maxWidth: '900px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#1e1b4b', marginBottom: '1rem' }}>
-            The Perfect Skill Exchange in Action
-          </h2>
-          <p style={{ color: '#475569', fontSize: '1.05rem', marginBottom: '2.5rem' }}>
-            See how two college students instantly solve each other's learning goals:
-          </p>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.5rem',
-              alignItems: 'center',
-            }}
-          >
-            {/* Student A */}
-            <div
-              className="card"
-              style={{
-                padding: '1.75rem',
-                backgroundColor: '#ffffff',
-                border: '2px solid #c7d2fe',
-                textAlign: 'left',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <img
-                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80"
-                  alt="Aarav"
-                  style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
-                />
-                <div>
-                  <h4 style={{ fontWeight: 800, color: '#1e1b4b' }}>Aarav Sharma</h4>
-                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>CS • 3rd Year</span>
-                </div>
-              </div>
-              <div style={{ marginBottom: '0.6rem' }}>
-                <span className="badge badge-teach">Teaches: Python Programming</span>
-              </div>
-              <div>
-                <span className="badge badge-learn">Wants: UI/UX Design</span>
-              </div>
-            </div>
-
-            {/* Match Indicator */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-              <div
-                style={{
-                  width: '54px',
-                  height: '54px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #6366f1 0%, #3b82f6 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)',
-                }}
-              >
-                <Sparkles size={26} />
-              </div>
-              <span style={{ fontWeight: 800, color: '#4f46e5', fontSize: '0.9rem' }}>
-                100% MUTUAL MATCH
+                How It Works
+              </span>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>•</span>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 500 }}>
+                Simple 3-Step Campus Knowledge Exchange
               </span>
             </div>
-
-            {/* Student B */}
-            <div
-              className="card"
-              style={{
-                padding: '1.75rem',
-                backgroundColor: '#ffffff',
-                border: '2px solid #bfdbfe',
-                textAlign: 'left',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
-                  alt="Priya"
-                  style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
-                />
-                <div>
-                  <h4 style={{ fontWeight: 800, color: '#1e1b4b' }}>Priya Patel</h4>
-                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Design • 2nd Year</span>
-                </div>
-              </div>
-              <div style={{ marginBottom: '0.6rem' }}>
-                <span className="badge badge-teach">Teaches: UI/UX Design</span>
-              </div>
-              <div>
-                <span className="badge badge-learn">Wants: Python Programming</span>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer
-        style={{
-          marginTop: 'auto',
-          backgroundColor: '#0f172a',
-          color: '#ffffff',
-          padding: '4rem 0 2rem',
-        }}
-      >
-        <div className="container">
+          {/* Three Feature Cards Displayed Horizontally */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '2.5rem',
-              marginBottom: '3rem',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.65rem',
             }}
+            className="how-it-works-grid"
           >
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
+            {steps.map((st) => (
+              <div
+                key={st.step}
+                style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '10px',
+                  padding: '0.5rem 0.75rem',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '0.6rem',
+                  transition: 'border-color 0.15s, box-shadow 0.15s',
+                }}
+              >
                 <div
                   style={{
                     width: '32px',
                     height: '32px',
                     borderRadius: '8px',
-                    background: '#6366f1',
+                    backgroundColor: st.bg,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#ffffff',
+                    flexShrink: 0,
+                    marginTop: '2px',
                   }}
                 >
-                  <Sparkles size={18} />
+                  {st.icon}
                 </div>
-                <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>SkillSwap</span>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <span
+                      style={{
+                        fontSize: '0.65rem',
+                        fontWeight: 800,
+                        color: '#6366f1',
+                        backgroundColor: '#e0e7ff',
+                        padding: '1px 5px',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      {st.step}
+                    </span>
+                    <h3 style={{ fontSize: '0.84rem', fontWeight: 700, color: '#0f172a' }}>
+                      {st.title}
+                    </h3>
+                  </div>
+                  <p style={{ fontSize: '0.725rem', color: '#64748b', marginTop: '0.2rem', lineHeight: 1.35 }}>
+                    {st.desc}
+                  </p>
+                </div>
               </div>
-              <p style={{ color: '#94a3b8', fontSize: '0.875rem', lineHeight: 1.6 }}>
-                The premier peer-to-peer student skill exchange platform empowering university students
-                to teach what they know and master what they desire.
-              </p>
+            ))}
+          </div>
+        </section>
+
+        {/* ================= BOTTOM SPLIT ROW: 4. POPULAR SKILLS & 5. WHY CHOOSE ================= */}
+        <section
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0.75rem',
+          }}
+          className="bottom-split-grid"
+        >
+          {/* 4. Popular Skills Section */}
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '14px',
+              padding: '0.65rem 1rem',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '0.45rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Layers size={13} color="#4f46e5" />
+                <span
+                  style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    color: '#4f46e5',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.6px',
+                  }}
+                >
+                  Popular Skills
+                </span>
+              </div>
+              <Link
+                to="/explore"
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  color: '#4f46e5',
+                  textDecoration: 'none',
+                }}
+              >
+                Explore All →
+              </Link>
             </div>
 
-            <div>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '1rem', color: '#f1f5f9' }}>
-                Platform Navigation
-              </h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.875rem', color: '#94a3b8' }}>
-                <li><Link to="/explore" style={{ color: 'inherit' }}>Explore Student Profiles</Link></li>
-                <li><Link to="/#how-it-works" style={{ color: 'inherit' }}>How Exchanges Work</Link></li>
-                <li><Link to="/login" style={{ color: 'inherit' }}>Student Sign In</Link></li>
-                <li><Link to="/register" style={{ color: 'inherit' }}>Create Free Account</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '1rem', color: '#f1f5f9' }}>
-                College Support
-              </h4>
-              <p style={{ color: '#94a3b8', fontSize: '0.875rem', lineHeight: 1.6 }}>
-                Built with passion for students, hackathons, and campus innovation clubs.
-                Email: support@skillswap.edu
-              </p>
+            {/* 6 Skill Categories Compact Cards */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '0.45rem',
+              }}
+              className="skills-compact-grid"
+            >
+              {popularSkills.map((sk) => (
+                <Link
+                  key={sk.name}
+                  to={`/explore?category=${encodeURIComponent(sk.query)}`}
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.35rem 0.55rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#eef2ff';
+                    e.currentTarget.style.borderColor = '#c7d2fe';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f8fafc';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '6px',
+                      backgroundColor: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {sk.icon}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: '0.76rem',
+                      fontWeight: 700,
+                      color: '#1e293b',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {sk.name}
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
 
+          {/* 5. Why Choose SkillSwap? Section */}
           <div
             style={{
-              borderTop: '1px solid #1e293b',
-              paddingTop: '2rem',
+              backgroundColor: '#ffffff',
+              borderRadius: '14px',
+              padding: '0.65rem 1rem',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              fontSize: '0.825rem',
-              color: '#64748b',
             }}
           >
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '0.45rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <CheckCircle2 size={13} color="#4f46e5" />
+                <span
+                  style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    color: '#4f46e5',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.6px',
+                  }}
+                >
+                  Why Choose SkillSwap?
+                </span>
+              </div>
+              <span style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600 }}>
+                Campus Peer Learning Benefits
+              </span>
+            </div>
+
+            {/* 4 Small Benefits */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '0.45rem',
+              }}
+              className="benefits-compact-grid"
+            >
+              {benefits.map((b) => (
+                <div
+                  key={b.title}
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    padding: '0.35rem 0.55rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '6px',
+                      backgroundColor: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {b.icon}
+                  </div>
+                  <div style={{ overflow: 'hidden' }}>
+                    <h4 style={{ fontSize: '0.76rem', fontWeight: 700, color: '#0f172a', lineHeight: 1.1 }}>
+                      {b.title}
+                    </h4>
+                    <p
+                      style={{
+                        fontSize: '0.68rem',
+                        color: '#64748b',
+                        lineHeight: 1.25,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        marginTop: '1px',
+                      }}
+                    >
+                      {b.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ================= 7. FOOTER (Compact Single-Screen Footer) ================= */}
+      <footer
+        style={{
+          backgroundColor: '#0f172a',
+          color: '#94a3b8',
+          borderTop: '1px solid #1e293b',
+          padding: '0.35rem 1.25rem',
+          fontSize: '0.75rem',
+          flexShrink: 0,
+        }}
+      >
+        <div
+          className="container"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+          }}
+        >
+          {/* Copyright information */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontWeight: 700, color: '#f8fafc' }}>SkillSwap</span>
+            <span style={{ color: '#475569' }}>•</span>
             <span>© 2026 SkillSwap Platform. All rights reserved.</span>
-            <span>Made for College Students • Peer Education Initiative</span>
+          </div>
+
+          {/* Links: About SkillSwap, Contact, Privacy Policy */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            <button
+              onClick={() => setActiveModal('about')}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                color: '#cbd5e1',
+                fontSize: '0.75rem',
+                cursor: 'pointer',
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#818cf8')}
+              onMouseLeave={(e) => (e.target.style.color = '#cbd5e1')}
+            >
+              About SkillSwap
+            </button>
+            <button
+              onClick={() => setActiveModal('contact')}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                color: '#cbd5e1',
+                fontSize: '0.75rem',
+                cursor: 'pointer',
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#818cf8')}
+              onMouseLeave={(e) => (e.target.style.color = '#cbd5e1')}
+            >
+              Contact
+            </button>
+            <button
+              onClick={() => setActiveModal('privacy')}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                color: '#cbd5e1',
+                fontSize: '0.75rem',
+                cursor: 'pointer',
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#818cf8')}
+              onMouseLeave={(e) => (e.target.style.color = '#cbd5e1')}
+            >
+              Privacy Policy
+            </button>
           </div>
         </div>
       </footer>
+
+      {/* ================= MODAL DIALOGS FOR ABOUT, CONTACT, PRIVACY ================= */}
+      {activeModal && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.65)',
+            backdropFilter: 'blur(5px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 100,
+            padding: '1rem',
+          }}
+          onClick={() => setActiveModal(null)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '18px',
+              maxWidth: '520px',
+              width: '100%',
+              padding: '1.75rem',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              position: 'relative',
+              border: '1px solid #e2e8f0',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '10px',
+                    backgroundColor: '#e0e7ff',
+                    color: '#4f46e5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {activeModal === 'about' && <Info size={20} />}
+                  {activeModal === 'contact' && <Mail size={20} />}
+                  {activeModal === 'privacy' && <ShieldCheck size={20} />}
+                </div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a' }}>
+                  {activeModal === 'about' && 'About SkillSwap'}
+                  {activeModal === 'contact' && 'Contact SkillSwap Team'}
+                  {activeModal === 'privacy' && 'SkillSwap Privacy Policy'}
+                </h3>
+              </div>
+              <button
+                onClick={() => setActiveModal(null)}
+                style={{
+                  background: '#f1f5f9',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '30px',
+                  height: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#64748b',
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            {activeModal === 'about' && (
+              <div style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <p style={{ marginBottom: '0.75rem' }}>
+                  <strong>SkillSwap</strong> is an innovative peer-to-peer campus platform built to empower university students to teach skills they already know and acquire new skills from peers completely free of charge.
+                </p>
+                <p style={{ marginBottom: '0.75rem' }}>
+                  Instead of paying costly bootcamp fees or expensive private tutoring charges, students find mutual learning matches — Student A teaches Python in exchange for Student B teaching UI/UX Design.
+                </p>
+                <p>
+                  Every session includes verified ratings, peer endorsements, and structured exchange tracking to boost academic growth and career resumes.
+                </p>
+              </div>
+            )}
+
+            {activeModal === 'contact' && (
+              <div style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <p style={{ marginBottom: '0.85rem' }}>
+                  Have questions, feedback, or want to launch SkillSwap at your university campus? We'd love to hear from you!
+                </p>
+                <div
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '10px',
+                    padding: '1rem',
+                    border: '1px solid #e2e8f0',
+                    marginBottom: '1rem',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <Mail size={16} color="#4f46e5" />
+                    <span style={{ fontWeight: 700, color: '#1e1b4b' }}>support@skillswap.edu</span>
+                  </div>
+                  <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                    Available Monday – Friday for student support and club partnerships.
+                  </div>
+                </div>
+                <p style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                  SkillSwap Student Initiative • College Innovation & Open Education Network
+                </p>
+              </div>
+            )}
+
+            {activeModal === 'privacy' && (
+              <div style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                <p style={{ marginBottom: '0.75rem' }}>
+                  <strong>Student Safety & Privacy First:</strong> SkillSwap is dedicated to preserving the confidentiality and academic privacy of all participating college students.
+                </p>
+                <ul style={{ paddingLeft: '1.25rem', marginBottom: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <li>Your student credentials and email are safely hashed using industry standard bcrypt encryption.</li>
+                  <li>No personal user contact data or phone numbers are ever sold to third parties or advertisers.</li>
+                  <li>Skill exchanges are strictly non-commercial and peer-monitored.</li>
+                  <li>You maintain full control over which skills you choose to list on your student profile.</li>
+                </ul>
+                <p style={{ fontSize: '0.825rem', color: '#64748b' }}>
+                  Last updated: 2026 Academic Session • SkillSwap Platform Security
+                </p>
+              </div>
+            )}
+
+            {/* Modal Footer */}
+            <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
+              <button
+                onClick={() => setActiveModal(null)}
+                className="btn btn-primary btn-sm"
+                style={{ padding: '0.5rem 1.25rem' }}
+              >
+                Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Embedded CSS for responsive adaptations */}
+      <style>{`
+        @media (min-width: 1024px) {
+          .single-screen-landing {
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+          }
+        }
+        @media (max-width: 1023px) {
+          .single-screen-landing {
+            min-height: 100vh;
+            height: auto;
+            overflow-y: auto;
+          }
+          .hero-section-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .how-it-works-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .bottom-split-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .skills-compact-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .benefits-compact-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
