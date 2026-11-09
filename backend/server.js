@@ -62,9 +62,13 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
+  const mongoose = require('mongoose');
+  const dbState = mongoose.connection.readyState;
+  const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
   res.status(200).json({
     status: 'OK',
     app: 'SkillSwap API',
+    database: states[dbState] || 'unknown',
     time: new Date().toISOString(),
   });
 });
