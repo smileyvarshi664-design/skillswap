@@ -3,11 +3,10 @@ import axios from 'axios';
 // Sanitize and normalize API Base URL so invalid formatting never breaks requests
 const getApiBaseUrl = () => {
   let url = import.meta.env.VITE_API_URL;
-  if (!url || typeof url !== 'string' || url.trim() === '') {
-    // Default fallback in production to the live Render backend
-    return import.meta.env.PROD
-      ? 'https://skillswap-f0v6.onrender.com/api'
-      : 'http://localhost:5000/api';
+
+  // If missing, empty, or still contains template placeholder brackets '<...>'
+  if (!url || typeof url !== 'string' || url.trim() === '' || url.includes('<') || url.includes('>')) {
+    return 'https://skillswap-f0v6.onrender.com/api';
   }
 
   // Trim and remove any accidental surrounding quotes or prefixes
