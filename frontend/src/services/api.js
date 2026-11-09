@@ -1,6 +1,34 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Sanitize and normalize API Base URL so invalid formatting never breaks requests
+const getApiBaseUrl = () => {
+  let url = import.meta.env.VITE_API_URL;
+  if (!url || typeof url !== 'string' || url.trim() === '') {
+    // Default fallback in production to the live Render backend
+    return import.meta.env.PROD
+      ? 'https://skillswap-f0v6.onrender.com/api'
+      : 'http://localhost:5000/api';
+  }
+
+  // Trim and remove any accidental surrounding quotes or prefixes
+  url = url.trim().replace(/^["']|["']$/g, '');
+  if (url.includes('=')) {
+    url = url.split('=').pop().trim();
+  }
+  // Ensure protocol is present
+  if (!/^https?:\/\//i.test(url)) {
+    url = `https://${url}`;
+  }
+  // Remove trailing slashes
+  url = url.replace(/\/+$/, '');
+  // Ensure /api suffix
+  if (!url.endsWith('/api')) {
+    url = `${url}/api`;
+  }
+  return url;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
