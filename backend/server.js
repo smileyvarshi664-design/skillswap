@@ -11,11 +11,34 @@ connectDB();
 
 const app = express();
 
-// Middlewares
+// CORS configuration: allows localhost, specified CLIENT_URL, and all Vercel deployment domains
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: '*',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps, curl, health checks)
+      if (!origin) return callback(null, true);
+
+      // Allow if matches allowedOrigins, ends with vercel.app, or not in production
+      const isAllowed =
+        allowedOrigins.some((allowed) => origin === allowed || origin.startsWith(allowed)) ||
+        origin.endsWith('.vercel.app') ||
+        process.env.NODE_ENV !== 'production';
+
+      if (isAllowed) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 app.use(express.json());

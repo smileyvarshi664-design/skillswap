@@ -1,7 +1,24 @@
-@"
+# Dependencies
 node_modules/
+package-lock.json
+
+# Build outputs
 dist/
+build/
+
+# Environment files (NEVER commit secrets to git)
 .env
-.env.*
-!.env.example
-"@ | Set-Content .gitignore
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
