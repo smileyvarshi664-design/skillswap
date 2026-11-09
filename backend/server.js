@@ -11,38 +11,43 @@ connectDB();
 
 const app = express();
 
-// CORS configuration: allows localhost, specified CLIENT_URL, and all Vercel deployment domains
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:3000',
-].filter(Boolean);
+// Robust CORS middleware: handles preflight OPTIONS immediately and reflects requesting origin
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g., mobile apps, curl, health checks)
-      if (!origin) return callback(null, true);
+  // Immediately respond to preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
 
-      // Allow if matches allowedOrigins, ends with vercel.app, or not in production
-      const isAllowed =
-        allowedOrigins.some((allowed) => origin === allowed || origin.startsWith(allowed)) ||
-        origin.endsWith('.vercel.app') ||
-        process.env.NODE_ENV !== 'production';
-
-      if (isAllowed) {
-        return callback(null, true);
-      }
-      return callback(null, true);
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Database connection check middleware
+app.use((req, res, next) => {
+  // Skip check for health check and root endpoints
+  if (req.path === '/api/health' || req.path === '/') {
+    return next();
+  }
+  const mongoose = require('mongoose');
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is connecting or MONGODB_URI is not set on Render. Please verify MONGODB_URI in Render Environment tab.',
+    });
+  }
+  next();
+});
 
 // Request logger for development
 app.use((req, res, next) => {
